@@ -1,6 +1,7 @@
 window.onload = function(){
 	
 	//console.error('debug');
+	// comment for test
 	
 	$('#start_btn').bind('click', function(){
 		start_test();
