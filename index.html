@@ -9,15 +9,44 @@
 	
 	<script src="lib/jquery-3.2.1.min.js" type='text/javascript'></script>
 	<script src="js/main.js" type='text/javascript'></script>
+
 	
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+        <link rel="stylesheet" type="text/css" href="style.css">
+    
 	
 </head>
 <body>
-	
-	<button id="start_btn">START</button>
-	<button id="stop_btn">STOP</button><br />
-	<input type="checkbox" id="withoutBreaks_chBox">Wyłącz przerwy
-	
+	<!--div class="container"> 
+        <button id="start_btn">START</button>
+        <button id="stop_btn">STOP</button><br />
+        <input type="checkbox" id="withoutBreaks_chBox">Wyłącz przerwy
+	</div-->
 
+    <div class="outer text-white">
+      <div class="middle">
+        <div class="inner">
+            <div>
+                <button type="button" class="btn btn-primary" id="start_btn">START</button>
+                <button type="button" class="btn btn-primary" id="stop_btn">STOP</button>
+            </div>
+            <div>
+                <input type="checkbox" id="withoutBreaks_chBox">Wyłącz przerwy</input>
+            </div>
+        </div>
+      </div>
+    </div>
+    
 </body>
 </html>
