@@ -75,6 +75,14 @@ function play_sound(){ //TODO zakonczenie
 	
 	console.log('stage = ' + stage + ', interval(ile minelo) = ' + interval + ', sound_name = ' + sound_name + ', full10meters_counter = ' + full10meters_counter + '/' + full10meters + ', restTime = ' + restTime); // testowo	
 	
+	$("#stage").val(stage);
+	$("#interval").val(interval);
+	$("#sound_name").val(sound_name);
+	$("#full10meters_counter").val(full10meters_counter);
+	$("#full10meters").val(full10meters);
+	$("#restTime").val(restTime);
+
+
 	var audio = new Audio('sounds/' + sound_name + '.wav');
 	audio.play();
 	
