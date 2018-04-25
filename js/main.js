@@ -1,8 +1,5 @@
 window.onload = function(){
 	
-	//console.error('debug');
-	// comment for test
-	
 	$('#start_btn').bind('click', function(){
 		start_test();
 	});
@@ -15,13 +12,14 @@ window.onload = function(){
 var stage = 1; // etap 1-18, co 3 przerwa 2min 
 var interval = 4237; // po jakim czasie ma odtworzyc dany dzwiekiem
 var sound_name = 'test_zaraz_sie_rozpocznie'; // jaki song ma byc teraz uzyty
-var stop_status = false; // true = przerwij test, wcisniety przycisk stop
 
 var full10meters = 0; // ile w danej 2 minutowce jest pelnych 10metrowek
 var full10meters_counter = 0; // ile juz przebiegnietych pelne 10m
 
 var restTime = 0;
 var currentBollard = 1; 
+
+var testIsRunned = false;
 
 
 // ile czasu pomiedzy pacholkami w danym etapie np etap 1 = 4.237s na przebiegniecie 10m
@@ -31,7 +29,12 @@ var stage_times = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2
 function start_test()
 {
 	
-	//TODO zabezpieczenie przed kliknieciem 2 razy start
+	if( testIsRunned ){
+		return;
+	}else{
+		testIsRunned = true;
+	}
+	
 	
 	$('#withoutBreaks_chBox').attr('disabled', true);
 	
@@ -56,7 +59,7 @@ function start_test()
 
 function stop_test(){
 	
-	stop_status = true;
+	testIsRunned = false;
 	$('#withoutBreaks_chBox').removeAttr('disabled');
 	
 	for(i = 0; i < 9; i++)
@@ -66,21 +69,14 @@ function stop_test(){
 
 function play_sound(){ //TODO zakonczenie
 	
-	if(stop_status || stage > 18){
-		
-		stop_status = false;
-		console.log('stop');
+	if(!testIsRunned || stage > 18){
 		return;
 	}
 	
 	console.log('stage = ' + stage + ', interval(ile minelo) = ' + interval + ', sound_name = ' + sound_name + ', full10meters_counter = ' + full10meters_counter + '/' + full10meters + ', restTime = ' + restTime); // testowo	
 	
-	$("#stage").val(stage);
-	$("#interval").val(interval);
-	$("#sound_name").val(sound_name);
-	$("#full10meters_counter").val(full10meters_counter);
-	$("#full10meters").val(full10meters);
-	$("#restTime").val(restTime);
+	$("#stage").val(stage + "z 18");
+
 
 
 	var audio = new Audio('sounds/' + sound_name + '.wav');
@@ -139,12 +135,6 @@ function play_sound(){ //TODO zakonczenie
 		
 		stage++;
 	}
-	
-	
-		
-
-	
-
 
 	setTimeout(function(){play_sound();},interval);
 
@@ -177,7 +167,9 @@ function break_test(timeout){
 
 
 
+function stopwatch(){
 
+}
 
 
 
