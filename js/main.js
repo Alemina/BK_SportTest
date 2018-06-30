@@ -37,6 +37,7 @@ function start_test()
 	
 	
 	$('#withoutBreaks_chBox').attr('disabled', true);
+	$('#start_btn').attr('disabled', true);
 	
 	// w razie reklikniecia start
 	stage = 1;
@@ -60,7 +61,10 @@ function start_test()
 function stop_test(){
 	
 	testIsRunned = false;
+	//dodac reset intervali
+
 	$('#withoutBreaks_chBox').removeAttr('disabled');
+	$('#start_btn').removeAttr('disabled');
 	
 	for(i = 0; i < 9; i++)
 		clearTimeout('break' + i);
