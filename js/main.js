@@ -46,8 +46,9 @@ function start_test()
 	full10meters_counter = 0;
 	currentBollard = 1;
 	
-	setTimeout(function(){break0 = new Audio('sounds/test_zaraz_sie_rozpocznie.wav'); break0.play();},3000);
-	setTimeout(function(){break1 = new Audio('sounds/ustaw_sie_na_numerze_40.wav'); break1.play();},5500);
+	setTimeout(function(){break0 = new Audio('sounds/test zaraz sie zacznie.wav'); break0.play();},3000);
+	setTimeout(function(){break1 = new Audio('sounds/ustaw sie na numerze A.wav'); break1.play();},5500);
+	setTimeout(function(){break1 = new Audio('sounds/40.wav'); break1.play();},6500);
 	setTimeout(function(){break2 = new Audio('sounds/3.wav'); break2.play();},10000);
 	setTimeout(function(){break3 = new Audio('sounds/2.wav'); break3.play();},11000);
 	setTimeout(function(){break4 = new Audio('sounds/1.wav'); break4.play();},12000);
@@ -79,7 +80,7 @@ function play_sound(){ //TODO zakonczenie
 	
 	console.log('stage = ' + stage + ', interval(ile minelo) = ' + interval + ', sound_name = ' + sound_name + ', full10meters_counter = ' + full10meters_counter + '/' + full10meters + ', restTime = ' + restTime); // testowo	
 	
-	$("#stage").val(stage + "z 18");
+	$("#stage").val(stage + " z 18");
 
 
 
@@ -154,12 +155,12 @@ function break_test(timeout){
 	
 	
 	setTimeout(function(){break0 = new Audio('sounds/stop.wav'); break0.play();},timeout);
-	setTimeout(function(){break1 = new Audio('sounds/2_minuty_przerwy.wav'); break1.play();},1700);
-	setTimeout(function(){break4 = new Audio('sounds/ustaw_sie_na_numerze.wav'); break4.play();},3400);
+	setTimeout(function(){break1 = new Audio('sounds/dwie minuty przerwy.wav'); break1.play();},1700);
+	setTimeout(function(){break4 = new Audio('sounds/ustaw sie na numerze A.wav'); break4.play();},3400);
 	setTimeout(function(){break5 = new Audio('sounds/'+nr+'.wav'); break5.play();},5000);
-	setTimeout(function(){break2 = new Audio('sounds/pozostala_minuta.wav'); break2.play();},60000);
-	setTimeout(function(){break3 = new Audio('sounds/pozostalo_30_sekund.wav'); break3.play();},90000);
-	setTimeout(function(){break6 = new Audio('sounds/10_sekund.wav'); break6.play();},110000);
+	setTimeout(function(){break2 = new Audio('sounds/pozostala minuta.wav'); break2.play();},60000);
+	setTimeout(function(){break3 = new Audio('sounds/pozostalo 30 sekund.wav'); break3.play();},90000);
+	setTimeout(function(){break6 = new Audio('sounds/dziesiec sekund.wav'); break6.play();},110000);
 	setTimeout(function(){break7 = new Audio('sounds/3.wav'); break7.play();},117000);
 	setTimeout(function(){break8 = new Audio('sounds/2.wav'); break8.play();},118000);
 	setTimeout(function(){break9 = new Audio('sounds/1.wav'); break9.play();},119000);
