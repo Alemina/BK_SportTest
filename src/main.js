@@ -1,3 +1,6 @@
+import $ from "jquery";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 window.onload = function(){
 	
 	$('#start_btn').bind('click', function(){
@@ -46,12 +49,12 @@ function start_test()
 	full10meters_counter = 0;
 	currentBollard = 1;
 	
-	setTimeout(function(){break0 = new Audio('sounds/test zaraz sie zacznie.wav'); break0.play();},3000);
-	setTimeout(function(){break1 = new Audio('sounds/ustaw sie na numerze A.wav'); break1.play();},5500);
-	setTimeout(function(){break1 = new Audio('sounds/40.wav'); break1.play();},6500);
-	setTimeout(function(){break2 = new Audio('sounds/3.wav'); break2.play();},10000);
-	setTimeout(function(){break3 = new Audio('sounds/2.wav'); break3.play();},11000);
-	setTimeout(function(){break4 = new Audio('sounds/1.wav'); break4.play();},12000);
+	setTimeout(function(){const break0 = new Audio('assets/sounds/test zaraz sie zacznie.wav'); break0.play();},3000);
+	setTimeout(function(){const break1 = new Audio('assets/sounds/ustaw sie na numerze A.wav'); break1.play();},5500);
+	setTimeout(function(){const break1 = new Audio('assets/sounds/40.wav'); break1.play();},6500);
+	setTimeout(function(){const break2 = new Audio('assets/sounds/3.wav'); break2.play();},10000);
+	setTimeout(function(){const break3 = new Audio('assets/sounds/2.wav'); break3.play();},11000);
+	setTimeout(function(){const break4 = new Audio('assets/sounds/1.wav'); break4.play();},12000);
 	
 	
 	
@@ -67,7 +70,7 @@ function stop_test(){
 	$('#withoutBreaks_chBox').removeAttr('disabled');
 	$('#start_btn').removeAttr('disabled');
 	
-	for(i = 0; i < 9; i++)
+	for(let i = 0; i < 9; i++)
 		clearTimeout('break' + i);
 }
 
@@ -84,7 +87,7 @@ function play_sound(){ //TODO zakonczenie
 
 
 
-	var audio = new Audio('sounds/' + sound_name + '.wav');
+	var audio = new Audio('assets/sounds/' + sound_name + '.wav');
 	audio.play();
 	
 
@@ -115,7 +118,6 @@ function play_sound(){ //TODO zakonczenie
 	
 	if(full10meters_counter < full10meters ){
 		
-			
 		full10meters_counter++;
 		sound_name = currentBollard.toString();
 		currentBollard++; 
@@ -154,17 +156,17 @@ function break_test(timeout){
 	if(nr==0) nr =1;
 	
 	
-	setTimeout(function(){break0 = new Audio('sounds/stop.wav'); break0.play();},timeout);
-	setTimeout(function(){break1 = new Audio('sounds/dwie minuty przerwy.wav'); break1.play();},1700);
-	setTimeout(function(){break4 = new Audio('sounds/ustaw sie na numerze A.wav'); break4.play();},3400);
-	setTimeout(function(){break5 = new Audio('sounds/'+nr+'.wav'); break5.play();},5000);
-	setTimeout(function(){break2 = new Audio('sounds/pozostala minuta.wav'); break2.play();},60000);
-	setTimeout(function(){break3 = new Audio('sounds/pozostalo 30 sekund.wav'); break3.play();},90000);
-	setTimeout(function(){break6 = new Audio('sounds/dziesiec sekund.wav'); break6.play();},110000);
-	setTimeout(function(){break7 = new Audio('sounds/3.wav'); break7.play();},117000);
-	setTimeout(function(){break8 = new Audio('sounds/2.wav'); break8.play();},118000);
-	setTimeout(function(){break9 = new Audio('sounds/1.wav'); break9.play();},119000);
-	setTimeout(function(){break10 = new Audio('sounds/start.wav'); break10.play();},120000);
+	setTimeout(function(){const break0 = new Audio('assets/sounds/stop.wav'); break0.play();},timeout);
+	setTimeout(function(){const break1 = new Audio('assets/sounds/dwie minuty przerwy.wav'); break1.play();},1700);
+	setTimeout(function(){const break4 = new Audio('assets/sounds/ustaw sie na numerze A.wav'); break4.play();},3400);
+	setTimeout(function(){const break5 = new Audio('assets/sounds/'+nr+'.wav'); break5.play();},5000);
+	setTimeout(function(){const break2 = new Audio('assets/sounds/pozostala minuta.wav'); break2.play();},60000);
+	setTimeout(function(){const break3 = new Audio('assets/sounds/pozostalo 30 sekund.wav'); break3.play();},90000);
+	setTimeout(function(){const break6 = new Audio('assets/sounds/dziesiec sekund.wav'); break6.play();},110000);
+	setTimeout(function(){const break7 = new Audio('assets/sounds/3.wav'); break7.play();},117000);
+	setTimeout(function(){const break8 = new Audio('assets/sounds/2.wav'); break8.play();},118000);
+	setTimeout(function(){const break9 = new Audio('assets/sounds/1.wav'); break9.play();},119000);
+	setTimeout(function(){const break10 = new Audio('assets/sounds/start.wav'); break10.play();},120000);
 	
 }
 
