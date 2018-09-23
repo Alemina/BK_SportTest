@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
     entry: './src/main.js',
@@ -12,10 +13,15 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'css-loader',
-                    'style-loader'
+                    'style-loader',
+                    'css-loader'
                 ]
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            //...
+        })
+    ]
 }
