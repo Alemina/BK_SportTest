@@ -1,7 +1,7 @@
 import $ from "jquery";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import './style.css';
-// import '../src/style.css'
+import './style.scss';
+
 
 window.onload = function(){
 	
