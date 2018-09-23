@@ -1,5 +1,4 @@
 import $ from "jquery";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.scss';
 
 
@@ -57,8 +56,6 @@ function start_test()
 	setTimeout(function(){const break2 = new Audio('assets/sounds/3.wav'); break2.play();},10000);
 	setTimeout(function(){const break3 = new Audio('assets/sounds/2.wav'); break3.play();},11000);
 	setTimeout(function(){const break4 = new Audio('assets/sounds/1.wav'); break4.play();},12000);
-	
-	
 	
 	setTimeout(function(){play_sound();},13000);
 
