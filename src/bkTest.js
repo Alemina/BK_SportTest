@@ -1,19 +1,14 @@
 import $ from "jquery";
 export default function bkTest() {
     
-    var stage = 1; // etap 1-18, co 3 przerwa 2min 
-    var interval = 4237; // po jakim czasie ma odtworzyc dany dzwiekiem
-    var sound_name = 'test_zaraz_sie_rozpocznie'; // jaki song ma byc teraz uzyty
-
-    var full10meters = 0; // ile w danej 2 minutowce jest pelnych 10metrowek
-    var full10meters_counter = 0; // ile juz przebiegnietych pelne 10m
-
-    var restTime = 0;
-    var currentBollard = 1; 
-
-    var testIsRunned = false;
-
-
+    let stage = 1; // etap 1-18, co 3 przerwa 2min 
+    let interval = 4237; // po jakim czasie ma odtworzyc dany dzwiekiem
+    let sound_name = 'test_zaraz_sie_rozpocznie'; // jaki song ma byc teraz uzyty
+    let full10meters = 0; // ile w danej 2 minutowce jest pelnych 10metrowek
+    let full10meters_counter = 0; // ile juz przebiegnietych pelne 10m
+    let restTime = 0;
+    let currentBollard = 1; 
+    let testIsRunned = false;
     // ile czasu pomiedzy pacholkami w danym etapie np etap 1 = 4.237s na przebiegniecie 10m
     const stage_times = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
                             2321, 2248, 2180, 2116]; 
@@ -27,8 +22,6 @@ export default function bkTest() {
         console.log('stage = ' + stage + ', interval(ile minelo) = ' + interval + ', sound_name = ' + sound_name + ', full10meters_counter = ' + full10meters_counter + '/' + full10meters + ', restTime = ' + restTime); // testowo	
         
         $("#stage").val(stage + " z 18");
-
-
 
         var audio = new Audio('assets/sounds/' + sound_name + '.wav');
         audio.play();
@@ -80,21 +73,14 @@ export default function bkTest() {
                 restTime =0;
                 break_test(interval);
                 interval = 120000;
-                
             }
-            
             stage++;
         }
-
         setTimeout(function(){calculatePass();},interval);
-
     }
 
-
-
     function break_test(timeout){
-        
-        
+
         var nr = currentBollard -1;
         if(nr==0) {nr = 1}
         
@@ -111,14 +97,9 @@ export default function bkTest() {
         playSound('start', 120000);
     }
 
-
-
-
-
     function playSound(soundName, timeout = 0){
         
         if (!testIsRunned) {return}
-
         if (timeout === 0) {
             const sound = new Audio(`assets/sounds/${soundName}.wav`); 
             sound.play();
@@ -130,6 +111,7 @@ export default function bkTest() {
             }, timeout);
         }	
     }
+    
     return {
         startTest: function()
         {

@@ -8,6 +8,7 @@ window.onload = function(){
 
 	const _stopwatch = stopwatch();
 	const _bkTest = bkTest();
+	_stopwatch.startCountingDown(10)
 	
 	$('#start_btn').bind('click', function(){
 		_bkTest.startTest();
