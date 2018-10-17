@@ -1,5 +1,4 @@
-
-export function stopwatchh() {
+export default function stopwatch() {
     let h1 = document.getElementById('stopwatch');
     let seconds = 0;
     let minutes = 0;
