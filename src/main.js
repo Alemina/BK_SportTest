@@ -1,15 +1,16 @@
 import $ from "jquery";
 import './style.scss';
+import './clock.js'
 
 
 window.onload = function(){
 	
 	$('#start_btn').bind('click', function(){
-		start_test();
+		startTest();
 	});
 	
 	$('#stop_btn').bind('click', function(){
-		stop_test();
+		stopTest();
 	});
 }
 
@@ -30,9 +31,8 @@ var testIsRunned = false;
 var stage_times = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
 						2321, 2248, 2180, 2116]; 
 
-function start_test()
+function startTest()
 {
-	
 	if( testIsRunned ){
 		return;
 	}else{
@@ -50,18 +50,18 @@ function start_test()
 	full10meters_counter = 0;
 	currentBollard = 1;
 	
-	setTimeout(function(){const break0 = new Audio('assets/sounds/test zaraz sie zacznie.wav'); break0.play();},3000);
-	setTimeout(function(){const break1 = new Audio('assets/sounds/ustaw sie na numerze A.wav'); break1.play();},5500);
-	setTimeout(function(){const break1 = new Audio('assets/sounds/40.wav'); break1.play();},6500);
-	setTimeout(function(){const break2 = new Audio('assets/sounds/3.wav'); break2.play();},10000);
-	setTimeout(function(){const break3 = new Audio('assets/sounds/2.wav'); break3.play();},11000);
-	setTimeout(function(){const break4 = new Audio('assets/sounds/1.wav'); break4.play();},12000);
+	playSound('test zaraz sie zacznie', 3000);
+	playSound('ustaw sie na numerze A', 5500);
+	playSound('40', 6500);
+	playSound('3', 10000);
+	playSound('2', 11000);
+	playSound('1', 12000);
 	
-	setTimeout(function(){play_sound();},13000);
+	setTimeout(function(){calculatePass();},13000);
 
 }
 
-function stop_test(){
+function stopTest(){
 	
 	testIsRunned = false;
 	//dodac reset intervali
@@ -74,7 +74,7 @@ function stop_test(){
 }
 
 
-function play_sound(){ //TODO zakonczenie
+function calculatePass(){
 	
 	if(!testIsRunned || stage > 18){
 		return;
@@ -142,7 +142,7 @@ function play_sound(){ //TODO zakonczenie
 		stage++;
 	}
 
-	setTimeout(function(){play_sound();},interval);
+	setTimeout(function(){calculatePass();},interval);
 
 }
 
@@ -152,29 +152,39 @@ function break_test(timeout){
 	
 	
 	var nr = currentBollard -1;
-	if(nr==0) nr =1;
+	if(nr==0) {nr = 1}
 	
-	
-	setTimeout(function(){const break0 = new Audio('assets/sounds/stop.wav'); break0.play();},timeout);
-	setTimeout(function(){const break1 = new Audio('assets/sounds/dwie minuty przerwy.wav'); break1.play();},1700);
-	setTimeout(function(){const break4 = new Audio('assets/sounds/ustaw sie na numerze A.wav'); break4.play();},3400);
-	setTimeout(function(){const break5 = new Audio('assets/sounds/'+nr+'.wav'); break5.play();},5000);
-	setTimeout(function(){const break2 = new Audio('assets/sounds/pozostala minuta.wav'); break2.play();},60000);
-	setTimeout(function(){const break3 = new Audio('assets/sounds/pozostalo 30 sekund.wav'); break3.play();},90000);
-	setTimeout(function(){const break6 = new Audio('assets/sounds/dziesiec sekund.wav'); break6.play();},110000);
-	setTimeout(function(){const break7 = new Audio('assets/sounds/3.wav'); break7.play();},117000);
-	setTimeout(function(){const break8 = new Audio('assets/sounds/2.wav'); break8.play();},118000);
-	setTimeout(function(){const break9 = new Audio('assets/sounds/1.wav'); break9.play();},119000);
-	setTimeout(function(){const break10 = new Audio('assets/sounds/start.wav'); break10.play();},120000);
-	
+	playSound('stop', timeout);
+	playSound('dwie minuty przerwy', 1700);
+	playSound('ustaw sie na numerze A', 3400);
+	playSound(nr, 5000);
+	playSound('pozostala minuta', 60000);
+	playSound('pozostalo 30 sekund', 90000);
+	playSound('dziesiec sekund', 110000);
+	playSound('3', 117000);
+	playSound('2', 118000);
+	playSound('1', 119000);
+	playSound('start', 120000);
 }
 
 
 
 
 
-function stopwatch(){
+function playSound(soundName, timeout = 0){
+	
+	if (!testIsRunned) {return}
 
+	if (timeout === 0) {
+		const sound = new Audio(`assets/sounds/${soundName}.wav`); 
+		sound.play();
+	} else {
+		setTimeout(()=>{
+			if (!testIsRunned) {return}
+			const sound = new Audio(`assets/sounds/${soundName}.wav`); 
+			sound.play();
+		}, timeout);
+	}	
 }
 
 
