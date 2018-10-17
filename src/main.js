@@ -1,12 +1,16 @@
 import $ from "jquery";
 import './style.scss';
-import './clock.js'
+import {stopwatchh} from './clock.js'
 
 
 window.onload = function(){
 	
 	$('#start_btn').bind('click', function(){
 		startTest();
+		// console.log(stopwatchh);
+		const stopwatch = stopwatchh();
+		console.log(stopwatch);
+		stopwatch.start();
 	});
 	
 	$('#stop_btn').bind('click', function(){
