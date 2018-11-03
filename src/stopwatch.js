@@ -30,6 +30,7 @@ export default function stopwatch() {
             }
         }        
         h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+        // TODO dodac zabezpieczenie jak dojdzie do 0
         timerMinus();
     }
 
@@ -51,7 +52,7 @@ export default function stopwatch() {
             h1.textContent = "00:00:00";
             seconds = 0; minutes = 0; hours = 0;
         },
-        startCountingDown(s, m = 0, h = 0) {
+        startCountingDown: (s, m = 0, h = 0) => {
             hours = h;
             minutes = m;
             seconds = s;
