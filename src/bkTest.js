@@ -17,6 +17,55 @@ export default function bkTest() {
                             2321, 2248, 2180, 2116]; 
     const _currentTime = stopwatch('current-time');
 
+    function startTest()
+    {
+        if( testIsRunned ){
+            return;
+        }else{
+            testIsRunned = true;
+        }
+        
+        guiActions().setTestOn();        
+        _currentTime.startCountingDown(13);
+
+        playSound('test zaraz sie zacznie', 3000);
+        playSound('ustaw sie na numerze A', 5500);
+        playSound('40', 6500);
+        playSound('3', 10000);
+        playSound('2', 11000);
+        playSound('1', 12000);
+        
+        setTimeout(function(){
+            _currentTime.stop();
+            _currentTime.clear();
+            _currentTime.start();
+            calculatePass();
+        },13000);
+    }
+
+    function stopTest (){
+    
+        testIsRunned = false;
+        guiActions().setTestOff();
+        
+        for(let i = 0; i < 9; i++)
+            clearTimeout('break' + i);
+
+        _currentTime.stop();
+        _currentTime.clear();
+    }
+
+    function setInitState() {
+        stage = 1;
+        currentInterval = 4237;
+        nextSoundName = 'test_zaraz_sie_rozpocznie';
+        full10meters = 0;
+        finishedFull10meters = 0;
+        restTime = 0;
+        currentBollard = 1; 
+        testIsRunned = false;
+    }
+
     function calculatePass(){
         
         if(!testIsRunned || stage > 18){
@@ -25,7 +74,7 @@ export default function bkTest() {
 
         $("#current-stage").text(`${stage} z 18`);
 
-        var audio = new Audio('assets/sounds/' + nextSoundName + '.wav');
+        const audio = new Audio('assets/sounds/' + nextSoundName + '.wav');
         audio.play();
         
         if(currentBollard > 40) // ustwienie numery pacholka
@@ -70,7 +119,7 @@ export default function bkTest() {
             if(stage%3 == 0 && withBreaks){
                 currentBollard++;
                 restTime =0;
-                break_test(currentInterval);
+                twoMinutesBreak(currentInterval);
                 currentInterval = 120000;
             }
             stage++;
@@ -78,7 +127,7 @@ export default function bkTest() {
         setTimeout(function(){calculatePass();},currentInterval);
     }
 
-    function break_test(timeout){
+    function twoMinutesBreak(timeout){
 
         var nr = currentBollard -1;
         if(nr==0) {nr = 1}
@@ -96,46 +145,7 @@ export default function bkTest() {
         playSound('start', 120000);
     }
 
-    function startTest()
-    {
-        if( testIsRunned ){
-            return;
-        }else{
-            testIsRunned = true;
-        }
-        
-        guiActions().setTestOn();        
-        _currentTime.startCountingDown(13);
-
-        playSound('test zaraz sie zacznie', 3000);
-        playSound('ustaw sie na numerze A', 5500);
-        playSound('40', 6500);
-        playSound('3', 10000);
-        playSound('2', 11000);
-        playSound('1', 12000);
-        
-        setTimeout(function(){
-            _currentTime.stop();
-            _currentTime.clear();
-            _currentTime.start();
-            calculatePass();
-        },13000);
-    }
-
-    function stopTest (){
-    
-        testIsRunned = false;
-        guiActions().setTestOff();
-        
-        for(let i = 0; i < 9; i++)
-            clearTimeout('break' + i);
-
-        _currentTime.stop();
-        _currentTime.clear();
-    }
-
-    function playSound(soundName, timeout = 0){
-        
+    function playSound(soundName, timeout = 0) {
         if (!testIsRunned) {return}
         if (timeout === 0) {
             const sound = new Audio(`assets/sounds/${soundName}.wav`); 
@@ -149,17 +159,6 @@ export default function bkTest() {
         }	
     }
 
-    function setInitState() {
-        stage = 1;
-        currentInterval = 4237;
-        nextSoundName = 'test_zaraz_sie_rozpocznie';
-        full10meters = 0;
-        finishedFull10meters = 0;
-        restTime = 0;
-        currentBollard = 1; 
-        testIsRunned = false;
-    }
-    
     return {
         toogleTest() {
             if(testIsRunned) {
