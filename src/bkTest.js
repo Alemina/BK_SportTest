@@ -11,7 +11,7 @@ export default function bkTest() {
     let restTime = 0;
     let currentBollard = 1; 
     let testIsRunned = false;
-    let withoutBreak = false;
+    let withBreaks = true;
     // ile czasu pomiedzy pacholkami w danym etapie np etap 1 = 4.237s na przebiegniecie 10m
     const stagesIntervals = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
                             2321, 2248, 2180, 2116]; 
@@ -33,7 +33,7 @@ export default function bkTest() {
         
         if(finishedFull10meters == 0){ // obliczenie ile w tym etapie pelnych 10metrowek
             full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
-            if( (stage%3 == 1 && !withoutBreak) || stage == 1 ){
+            if( (stage%3 == 1 && withBreaks) || stage == 1 ){
                 currentInterval = stagesIntervals[stage-1];
                 restTime = 0;
             }
@@ -48,7 +48,7 @@ export default function bkTest() {
         if(finishedFull10meters == 1){ // zmieniam czas pozostaly dopiero po 1 przejsciu 
             restTime = 120000 - restTime - ( stagesIntervals[stage-1] * full10meters); 
             currentInterval = stagesIntervals[stage-1];
-            if( (stage%3 != 1 || withoutBreak) && stage !=1 ) full10meters++; 
+            if( (stage%3 != 1 || !withBreaks) && stage !=1 ) full10meters++; 
         }
 
         if(finishedFull10meters < full10meters ){
@@ -67,7 +67,7 @@ export default function bkTest() {
             restTime = 10 - restTime; // ile metrow musi przebiec do kolejnego pacholka ale juz w szybszym tempie
             restTime = stagesIntervals[stage]*restTime/10; // w jakim czasie bedzie biegl te pozostale metry
             
-            if(stage%3 == 0 && !withoutBreak){
+            if(stage%3 == 0 && withBreaks){
                 currentBollard++;
                 restTime =0;
                 break_test(currentInterval);
@@ -131,6 +131,7 @@ export default function bkTest() {
             clearTimeout('break' + i);
 
         _currentTime.stop();
+        _currentTime.clear();
     }
 
     function playSound(soundName, timeout = 0){
@@ -169,11 +170,11 @@ export default function bkTest() {
             }
         },
         toogleBreak() {
-            if(withoutBreak) {
-                withoutBreak = false;
+            if(withBreaks) {
+                withBreaks = false;
                 guiActions().setBreaksOff();
             } else {
-                withoutBreak = true;
+                withBreaks = true
                 guiActions().setBreaksOn();
             }
         }
