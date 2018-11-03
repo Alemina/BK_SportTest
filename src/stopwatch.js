@@ -1,5 +1,5 @@
-export default function stopwatch() {
-    let h1 = document.getElementById('stopwatch');
+export default function stopwatch(id) {
+    let element = document.getElementById(id);
     let seconds = 0;
     let minutes = 0;
     let hours = 0;
@@ -15,7 +15,7 @@ export default function stopwatch() {
                 hours++;
             }
         }        
-        h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+        element.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
         timer();
     }
 
@@ -29,9 +29,12 @@ export default function stopwatch() {
                 hours--;
             }
         }        
-        h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
-        // TODO dodac zabezpieczenie jak dojdzie do 0
-        timerMinus();
+        element.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+        if(seconds === 0 && minutes === 0 && hours === 0) {
+            clearTimeout(t);
+        } else {
+            timerMinus();
+        }
     }
 
     function timer() {
@@ -49,7 +52,7 @@ export default function stopwatch() {
             clearTimeout(t);
         },
         clear: function() {
-            h1.textContent = "00:00:00";
+            element.textContent = "---";
             seconds = 0; minutes = 0; hours = 0;
         },
         startCountingDown: (s, m = 0, h = 0) => {

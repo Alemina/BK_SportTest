@@ -1,5 +1,6 @@
 import $ from "jquery";
 import stopwatch from './stopwatch'
+import guiActions from './gui'
 export default function bkTest() {
     
     let stage = 1; // etap 1-18, co 3 przerwa 2min 
@@ -14,24 +15,19 @@ export default function bkTest() {
     // ile czasu pomiedzy pacholkami w danym etapie np etap 1 = 4.237s na przebiegniecie 10m
     const stagesIntervals = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
                             2321, 2248, 2180, 2116]; 
-    const _stopwatch = stopwatch();
+    const _currentTime = stopwatch('current-time');
 
     function calculatePass(){
         
         if(!testIsRunned || stage > 18){
             return;
         }
-        
-        console.log('stage = ' + stage + ', interval(ile minelo) = ' + currentInterval + ', nextSoundName = ' + nextSoundName + ', finishedFull10meters = ' + finishedFull10meters + '/' + full10meters + ', restTime = ' + restTime); // testowo	
-        
-        $("#stage").val(stage + " z 18");
+
+        $("#current-stage").text(`${stage} z 18`);
 
         var audio = new Audio('assets/sounds/' + nextSoundName + '.wav');
         audio.play();
-        _stopwatch.start();
-
         
-
         if(currentBollard > 40) // ustwienie numery pacholka
             currentBollard = 1;
         
@@ -108,19 +104,9 @@ export default function bkTest() {
             testIsRunned = true;
         }
         
-        $('#start_btn').removeClass('btn-success');
-        $('#start_btn').addClass('btn-danger');
-        $('#start_btn').text('Stop');
-        $('#start_btn').blur();
-        $("#break_btn").addClass("hide");
-        
-        // w razie reklikniecia start
-        stage = 1;
-        restTime = 0;
-        nextSoundName = 'start';
-        finishedFull10meters = 0;
-        currentBollard = 1;
-        
+        guiActions().setTestOn();        
+        _currentTime.startCountingDown(13);
+
         playSound('test zaraz sie zacznie', 3000);
         playSound('ustaw sie na numerze A', 5500);
         playSound('40', 6500);
@@ -128,24 +114,23 @@ export default function bkTest() {
         playSound('2', 11000);
         playSound('1', 12000);
         
-        setTimeout(function(){calculatePass();},13000);
+        setTimeout(function(){
+            _currentTime.stop();
+            _currentTime.clear();
+            _currentTime.start();
+            calculatePass();
+        },13000);
     }
 
     function stopTest (){
     
         testIsRunned = false;
-        //dodac reset intervali
-
-        $('#start_btn').removeClass('btn-danger');
-        $('#start_btn').addClass('btn-success');
-        $('#start_btn').text('Start');
-        $('#start_btn').blur();
-        $("#break_btn").removeClass("hide");
+        guiActions().setTestOff();
         
         for(let i = 0; i < 9; i++)
             clearTimeout('break' + i);
 
-        _stopwatch.stop();
+        _currentTime.stop();
     }
 
     function playSound(soundName, timeout = 0){
@@ -186,14 +171,10 @@ export default function bkTest() {
         toogleBreak() {
             if(withoutBreak) {
                 withoutBreak = false;
-                $("#break-row").removeClass("hide");
-                $('#break_btn').text('Wyłącz przerwy');
-                $('#break_btn').blur();
+                guiActions().setBreaksOff();
             } else {
                 withoutBreak = true;
-                $("#break-row").addClass("hide");
-                $('#break_btn').text('Włącz przerwy');
-                $('#break_btn').blur();
+                guiActions().setBreaksOn();
             }
         }
     }
