@@ -55,8 +55,6 @@ export default function bkTest() {
             if( (stage%3 != 1 || withoutBreak) && stage !=1 ) full10meters++; 
         }
 
-        
-        
         if(finishedFull10meters < full10meters ){
             
             finishedFull10meters++;
@@ -114,7 +112,7 @@ export default function bkTest() {
         $('#start_btn').addClass('btn-danger');
         $('#start_btn').text('Stop');
         $('#start_btn').blur();
-        $("#break_btn").prop("disabled", true);
+        $("#break_btn").addClass("hide");
         
         // w razie reklikniecia start
         stage = 1;
@@ -131,7 +129,6 @@ export default function bkTest() {
         playSound('1', 12000);
         
         setTimeout(function(){calculatePass();},13000);
-
     }
 
     function stopTest (){
@@ -143,7 +140,7 @@ export default function bkTest() {
         $('#start_btn').addClass('btn-success');
         $('#start_btn').text('Start');
         $('#start_btn').blur();
-        $("#break_btn").prop("disabled", false);
+        $("#break_btn").removeClass("hide");
         
         for(let i = 0; i < 9; i++)
             clearTimeout('break' + i);
@@ -165,20 +162,38 @@ export default function bkTest() {
             }, timeout);
         }	
     }
+
+    function setInitState() {
+        stage = 1;
+        currentInterval = 4237;
+        nextSoundName = 'test_zaraz_sie_rozpocznie';
+        full10meters = 0;
+        finishedFull10meters = 0;
+        restTime = 0;
+        currentBollard = 1; 
+        testIsRunned = false;
+    }
     
     return {
         toogleTest() {
             if(testIsRunned) {
                 stopTest();
+                setInitState();
             } else {
                 startTest();
             }
         },
         toogleBreak() {
             if(withoutBreak) {
-                withoutBreak = true;
-            } else {
                 withoutBreak = false;
+                $("#break-row").removeClass("hide");
+                $('#break_btn').text('Wyłącz przerwy');
+                $('#break_btn').blur();
+            } else {
+                withoutBreak = true;
+                $("#break-row").addClass("hide");
+                $('#break_btn').text('Włącz przerwy');
+                $('#break_btn').blur();
             }
         }
     }

@@ -10,8 +10,7 @@ window.onload = function(){
 		_bkTest.toogleTest();
 	});
 	
-	$('#break-btn').bind('click', function() {
+	$('#break_btn').bind('click', function() {
 		_bkTest.toogleBreak();
-		// $("#break-row").addClass("hide");
 	});
 }
