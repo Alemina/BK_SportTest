@@ -26,5 +26,7 @@ export default function guiActions() {
             $("#break_btn").removeClass("hide");
             $("#current-stage").text('---');
         }
+        
+
     }
 }

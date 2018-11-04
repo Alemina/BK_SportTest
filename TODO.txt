@@ -1,2 +1,5 @@
 - wylacz przerwy nie dziala przy pierwszym klinieciu
-- TODO dzwiek koniec jak koniec testu
+- dzwiek koniec jak koniec testu
+- przenies stoper do gui i porobic uchwyty na kazdy element np ze timeStopwatch.akcja
+- naprawic przerwe, pewnie zle wyliczane przez ten minus powtarzany
+- zeby stoper o sekunde szybciej chodzil, bo wyglada ze test jest o sekunde spozniony

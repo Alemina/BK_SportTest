@@ -21,10 +21,10 @@ export default function stopwatch(id) {
 
     function minus() {
         seconds--;
-        if (seconds <= 0) {
+        if (seconds < 0) {
             seconds = 59;
             minutes--;
-            if (minutes <= 0) {
+            if (minutes < 0) {
                 minutes = 59;
                 hours--;
             }
