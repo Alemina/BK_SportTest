@@ -30,12 +30,12 @@ export default function bkTest() {
         guiActions().setTestOn();        
         _currentTime.startCountingDown(13);
 
-        playSound('test zaraz sie zacznie', 3000)
-        .then( () => playSound('ustaw sie na numerze A', 2500))
-        .then( () => playSound('40', 1000))
-        .then( () => playSound('3', 3500))
-        .then( () => playSound('2', 1000))
-        .then( () => playSound('1', 1000))
+        playSoundWithDelay('test zaraz sie zacznie', 3000)
+        .then( () => playSoundWithDelay('ustaw sie na numerze A', 2500))
+        .then( () => playSoundWithDelay('40', 1000))
+        .then( () => playSoundWithDelay('3', 3500))
+        .then( () => playSoundWithDelay('2', 1000))
+        .then( () => playSoundWithDelay('1', 1000))
         .then( () => 
             timeoutHandle = setTimeout(function() {
                 _currentTime.stop();
@@ -63,6 +63,7 @@ export default function bkTest() {
         restTime = 0;
         currentBollard = 1; 
         testIsRunned = false;
+        timeoutHandle = null;
     }
 
     function calculatePass(){
@@ -73,35 +74,26 @@ export default function bkTest() {
 
         $("#current-stage").text(`${stage} z 18`);
 
-        const audio = new Audio('assets/sounds/' + nextSoundName + '.wav');
-        audio.play();
+        playSoundNow(nextSoundName);
         
-        if(currentBollard > 40)
+        if(currentBollard > 40) {
             currentBollard = 1;
-        
-        if(finishedFull10meters === 0){ // obliczenie ile w tym etapie pelnych 10metrowek
-            full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
-            if( (stage%3 === 1 && withBreaks) || stage === 1 ){
-                currentInterval = stagesIntervals[stage-1];
-                restTime = 0;
-            }
-            else
-            currentInterval = restTime;
+        }
+        if(finishedFull10meters === 0) {
+            calculateFull10meters();
         }
         
-        if(finishedFull10meters === 1){ // zmieniam czas pozostaly dopiero po 1 przejsciu 
+        if(finishedFull10meters === 1) { // zmieniam czas pozostaly dopiero po 1 przejsciu 
             restTime = 120000 - restTime - ( stagesIntervals[stage-1] * full10meters); 
             currentInterval = stagesIntervals[stage-1];
             if( (stage%3 != 1 || !withBreaks) && stage !=1 ) full10meters++; 
         }
 
-        if(finishedFull10meters < full10meters ){
-            
+        if(finishedFull10meters < full10meters ) {
             finishedFull10meters++;
             nextSoundName = currentBollard.toString();
             currentBollard++; 
-            
-        }else{
+        } else {
             currentInterval = restTime; 
             finishedFull10meters = 0;
             nextSoundName = "bip";
@@ -125,39 +117,51 @@ export default function bkTest() {
     }
 
     function twoMinutesBreak(timeout){
-
         var nr = currentBollard - 1;
         if (nr === 0) {
             nr = 1
         }
-        
-        playSound('stop', timeout)
-        .then( () => playSound('dwie minuty przerwy', 1700 - timeout))
-        .then( () => playSound('ustaw sie na numerze A', 1700 - timeout))
-        .then( () => playSound(nr, 1300 - timeout))
-        .then( () =>playSound('pozostala minuta', 55000 - timeout))
-        .then( () =>playSound('pozostalo 30 sekund', 30000))
-        .then( () =>playSound('dziesiec sekund', 20000 - timeout))
-        .then( () =>playSound('3', 7000 - timeout))
-        .then( () =>playSound('2', 1000 - timeout))
-        .then( () =>playSound('1', 1000 - timeout))
-        .then( () =>playSound('start', 1000 - timeout))
+        playSoundWithDelay('stop', timeout)
+        .then( () => playSoundWithDelay('dwie minuty przerwy', 1700 - timeout))
+        .then( () => playSoundWithDelay('ustaw sie na numerze A', 1700 - timeout))
+        .then( () => playSoundWithDelay(nr, 1300 - timeout))
+        .then( () => playSoundWithDelay('pozostala minuta', 55000 - timeout))
+        .then( () => playSoundWithDelay('pozostalo 30 sekund', 30000))
+        .then( () => playSoundWithDelay('dziesiec sekund', 20000 - timeout))
+        .then( () => playSoundWithDelay('3', 7000 - timeout))
+        .then( () => playSoundWithDelay('2', 1000 - timeout))
+        .then( () => playSoundWithDelay('1', 1000 - timeout))
+        .then( () => playSoundWithDelay('start', 1000 - timeout))
     }
 
-    function playSound(soundName, timeout = 0) {
+    function playSoundWithDelay(soundName, timeout = 0) {
         return new Promise(function(resolve, reject){
             if (timeout === 0) {
-                const sound = new Audio(`assets/sounds/${soundName}.wav`); 
-                sound.play();
+                playSoundNow(soundName);
                 resolve();
             } else {
                 timeoutHandle = setTimeout(()=>{
-                    const sound = new Audio(`assets/sounds/${soundName}.wav`); 
-                    sound.play();
+                    playSoundNow(soundName);
                     resolve();
                 }, timeout);
             }	
         })
+    }
+
+    function playSoundNow(soundName) {
+        const sound = new Audio(`assets/sounds/${soundName}.wav`); 
+        sound.play();
+    }
+
+    // obliczenie ile w tym etapie pelnych 10metrowek
+    function calculateFull10meters() {
+        full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
+        if( (stage%3 === 1 && withBreaks) || stage === 1 ){
+            currentInterval = stagesIntervals[stage-1];
+            restTime = 0;
+        }
+        else
+        currentInterval = restTime;
     }
 
     return {
