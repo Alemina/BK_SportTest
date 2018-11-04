@@ -1,0 +1,2 @@
+- wylacz przerwy nie dziala przy pierwszym klinieciu
+- TODO dzwiek koniec jak koniec testu

@@ -43,9 +43,7 @@ export default function bkTest() {
                 _currentTime.start();
                 calculatePass();
             },1000)
-        ).catch(()=>{
-            console.log('test stoped')
-        })
+        )
     }
 
     function stopTest (){
@@ -78,24 +76,20 @@ export default function bkTest() {
         const audio = new Audio('assets/sounds/' + nextSoundName + '.wav');
         audio.play();
         
-        if(currentBollard > 40) // ustwienie numery pacholka
+        if(currentBollard > 40)
             currentBollard = 1;
         
-        if(finishedFull10meters == 0){ // obliczenie ile w tym etapie pelnych 10metrowek
+        if(finishedFull10meters === 0){ // obliczenie ile w tym etapie pelnych 10metrowek
             full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
-            if( (stage%3 == 1 && withBreaks) || stage == 1 ){
+            if( (stage%3 === 1 && withBreaks) || stage === 1 ){
                 currentInterval = stagesIntervals[stage-1];
                 restTime = 0;
             }
             else
             currentInterval = restTime;
-            
         }
-        // TODO stop nie dziala na timeoucie
-        // TODO dzwiek koniec jak koniec testu
-        // w ogole koniec testu, stage 18 jest last
-        //TODO removeattribute dla checbkoxa jak koniec testu
-        if(finishedFull10meters == 1){ // zmieniam czas pozostaly dopiero po 1 przejsciu 
+        
+        if(finishedFull10meters === 1){ // zmieniam czas pozostaly dopiero po 1 przejsciu 
             restTime = 120000 - restTime - ( stagesIntervals[stage-1] * full10meters); 
             currentInterval = stagesIntervals[stage-1];
             if( (stage%3 != 1 || !withBreaks) && stage !=1 ) full10meters++; 
@@ -117,7 +111,7 @@ export default function bkTest() {
             restTime = 10 - restTime; // ile metrow musi przebiec do kolejnego pacholka ale juz w szybszym tempie
             restTime = stagesIntervals[stage]*restTime/10; // w jakim czasie bedzie biegl te pozostale metry
             
-            if(stage%3 == 0 && withBreaks){
+            if(stage%3 === 0 && withBreaks){
                 currentBollard++;
                 restTime =0;
                 twoMinutesBreak(currentInterval);
@@ -132,20 +126,22 @@ export default function bkTest() {
 
     function twoMinutesBreak(timeout){
 
-        var nr = currentBollard -1;
-        if(nr==0) {nr = 1}
+        var nr = currentBollard - 1;
+        if (nr === 0) {
+            nr = 1
+        }
         
-        playSound('stop', timeout);
-        playSound('dwie minuty przerwy', 1700);
-        playSound('ustaw sie na numerze A', 3400);
-        playSound(nr, 5000);
-        playSound('pozostala minuta', 60000);
-        playSound('pozostalo 30 sekund', 90000);
-        playSound('dziesiec sekund', 110000);
-        playSound('3', 117000);
-        playSound('2', 118000);
-        playSound('1', 119000);
-        playSound('start', 120000);
+        playSound('stop', timeout)
+        .then( () => playSound('dwie minuty przerwy', 1700 - timeout))
+        .then( () => playSound('ustaw sie na numerze A', 1700 - timeout))
+        .then( () => playSound(nr, 1300 - timeout))
+        .then( () =>playSound('pozostala minuta', 55000 - timeout))
+        .then( () =>playSound('pozostalo 30 sekund', 30000))
+        .then( () =>playSound('dziesiec sekund', 20000 - timeout))
+        .then( () =>playSound('3', 7000 - timeout))
+        .then( () =>playSound('2', 1000 - timeout))
+        .then( () =>playSound('1', 1000 - timeout))
+        .then( () =>playSound('start', 1000 - timeout))
     }
 
     function playSound(soundName, timeout = 0) {
