@@ -1,17 +1,19 @@
 import $ from "jquery";
 import stopwatch from './stopwatch'
 import guiActions from './gui'
+
 export default function bkTest() {
     
     let stage = 1; // etap 1-18, co 3 przerwa 2min 
     let currentInterval = 4237; // po jakim czasie ma odtworzyc dany dzwiekiem
-    let nextSoundName = 'test_zaraz_sie_rozpocznie'; // jaki song ma byc teraz uzyty
+    let nextSoundName = 'start'; // jaki song ma byc teraz uzyty
     let full10meters = 0; // ile w danej 2 minutowce jest pelnych 10metrowek
     let finishedFull10meters = 0; // ile juz przebiegnietych pelne 10m
     let restTime = 0;
     let currentBollard = 1; 
     let testIsRunned = false;
     let withBreaks = true;
+    let timeoutHandle = null;
     // ile czasu pomiedzy pacholkami w danym etapie np etap 1 = 4.237s na przebiegniecie 10m
     const stagesIntervals = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
                             2321, 2248, 2180, 2116]; 
@@ -28,29 +30,28 @@ export default function bkTest() {
         guiActions().setTestOn();        
         _currentTime.startCountingDown(13);
 
-        playSound('test zaraz sie zacznie', 3000);
-        playSound('ustaw sie na numerze A', 5500);
-        playSound('40', 6500);
-        playSound('3', 10000);
-        playSound('2', 11000);
-        playSound('1', 12000);
-        
-        setTimeout(function(){
-            _currentTime.stop();
-            _currentTime.clear();
-            _currentTime.start();
-            calculatePass();
-        },13000);
+        playSound('test zaraz sie zacznie', 3000)
+        .then( () => playSound('ustaw sie na numerze A', 2500))
+        .then( () => playSound('40', 1000))
+        .then( () => playSound('3', 3500))
+        .then( () => playSound('2', 1000))
+        .then( () => playSound('1', 1000))
+        .then( () => 
+            timeoutHandle = setTimeout(function() {
+                _currentTime.stop();
+                _currentTime.clear();
+                _currentTime.start();
+                calculatePass();
+            },1000)
+        ).catch(()=>{
+            console.log('test stoped')
+        })
     }
 
     function stopTest (){
-    
         testIsRunned = false;
         guiActions().setTestOff();
-        
-        for(let i = 0; i < 9; i++)
-            clearTimeout('break' + i);
-
+        clearTimeout(timeoutHandle);
         _currentTime.stop();
         _currentTime.clear();
     }
@@ -58,7 +59,7 @@ export default function bkTest() {
     function setInitState() {
         stage = 1;
         currentInterval = 4237;
-        nextSoundName = 'test_zaraz_sie_rozpocznie';
+        nextSoundName = 'start';
         full10meters = 0;
         finishedFull10meters = 0;
         restTime = 0;
@@ -124,7 +125,9 @@ export default function bkTest() {
             }
             stage++;
         }
-        setTimeout(function(){calculatePass();},currentInterval);
+        timeoutHandle = setTimeout(function(){
+            calculatePass();
+        }, currentInterval);
     }
 
     function twoMinutesBreak(timeout){
@@ -146,17 +149,19 @@ export default function bkTest() {
     }
 
     function playSound(soundName, timeout = 0) {
-        if (!testIsRunned) {return}
-        if (timeout === 0) {
-            const sound = new Audio(`assets/sounds/${soundName}.wav`); 
-            sound.play();
-        } else {
-            setTimeout(()=>{
-                if (!testIsRunned) {return}
+        return new Promise(function(resolve, reject){
+            if (timeout === 0) {
                 const sound = new Audio(`assets/sounds/${soundName}.wav`); 
                 sound.play();
-            }, timeout);
-        }	
+                resolve();
+            } else {
+                timeoutHandle = setTimeout(()=>{
+                    const sound = new Audio(`assets/sounds/${soundName}.wav`); 
+                    sound.play();
+                    resolve();
+                }, timeout);
+            }	
+        })
     }
 
     return {
