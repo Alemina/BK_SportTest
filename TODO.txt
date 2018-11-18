@@ -1,7 +1,4 @@
-- wylacz przerwy nie dziala przy pierwszym klinieciu
 - dzwiek koniec jak koniec testu
 - przenies stoper do gui i porobic uchwyty na kazdy element np ze timeStopwatch.akcja
-- naprawic przerwe, pewnie zle wyliczane przez ten minus powtarzany
-- zeby stoper o sekunde szybciej chodzil, bo wyglada ze test jest o sekunde spozniony
-- wylacz przerwy nie dziala za pierwszym razem
-* wylacz przerwy zrobic jako dropdown
+- wylacz przerwy zrobic jako dropdown
+- dodac zeby mozna bylo zaczynac z dowolnego momentu testu

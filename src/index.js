@@ -1,6 +1,8 @@
 import $ from "jquery";
 import './style.scss';
+import hacktimer from 'hacktimer'
 import bkTest from './bkTest'
+
 
 window.onload = function(){
 	

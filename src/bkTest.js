@@ -40,7 +40,7 @@ export default function bkTest() {
             timeoutHandle = setTimeout(function() {
                 _currentTime.stop();
                 _currentTime.clear();
-                _currentTime.start();
+                _currentTime.start()
                 calculatePass();
             },1000)
         )
@@ -76,20 +76,20 @@ export default function bkTest() {
 
         playSoundNow(nextSoundName);
         
-        if(currentBollard > 40) {
+        if (currentBollard > 40) {
             currentBollard = 1;
         }
-        if(finishedFull10meters === 0) {
+        if (finishedFull10meters === 0) {
             calculateFull10meters();
         }
         
-        if(finishedFull10meters === 1) { // zmieniam czas pozostaly dopiero po 1 przejsciu 
+        if (finishedFull10meters === 1) { // zmieniam czas pozostaly dopiero po 1 przejsciu 
             restTime = 120000 - restTime - ( stagesIntervals[stage-1] * full10meters); 
             currentInterval = stagesIntervals[stage-1];
             if( (stage%3 != 1 || !withBreaks) && stage !=1 ) full10meters++; 
         }
 
-        if(finishedFull10meters < full10meters ) {
+        if (finishedFull10meters < full10meters ) {
             finishedFull10meters++;
             nextSoundName = currentBollard.toString();
             currentBollard++; 
@@ -103,7 +103,7 @@ export default function bkTest() {
             restTime = 10 - restTime; // ile metrow musi przebiec do kolejnego pacholka ale juz w szybszym tempie
             restTime = stagesIntervals[stage]*restTime/10; // w jakim czasie bedzie biegl te pozostale metry
             
-            if(stage%3 === 0 && withBreaks){
+            if (stage%3 === 0 && withBreaks) {
                 currentBollard++;
                 restTime =0;
                 twoMinutesBreak(currentInterval);
@@ -122,16 +122,16 @@ export default function bkTest() {
             nr = 1
         }
         playSoundWithDelay('stop', timeout)
-        .then( () => playSoundWithDelay('dwie minuty przerwy', 1700 - timeout))
-        .then( () => playSoundWithDelay('ustaw sie na numerze A', 1700 - timeout))
-        .then( () => playSoundWithDelay(nr, 1300 - timeout))
-        .then( () => playSoundWithDelay('pozostala minuta', 55000 - timeout))
+        .then( () => playSoundWithDelay('dwie minuty przerwy', 1700))
+        .then( () => playSoundWithDelay('ustaw sie na numerze A', 1700))
+        .then( () => playSoundWithDelay(nr, 1300))
+        .then( () => playSoundWithDelay('pozostala minuta', 55000))
         .then( () => playSoundWithDelay('pozostalo 30 sekund', 30000))
-        .then( () => playSoundWithDelay('dziesiec sekund', 20000 - timeout))
-        .then( () => playSoundWithDelay('3', 7000 - timeout))
-        .then( () => playSoundWithDelay('2', 1000 - timeout))
-        .then( () => playSoundWithDelay('1', 1000 - timeout))
-        .then( () => playSoundWithDelay('start', 1000 - timeout))
+        .then( () => playSoundWithDelay('dziesiec sekund', 20000))
+        .then( () => playSoundWithDelay('3', 7000))
+        .then( () => playSoundWithDelay('2', 1000))
+        .then( () => playSoundWithDelay('1', 1000))
+        .then( () => playSoundWithDelay('start', 1000))
     }
 
     function playSoundWithDelay(soundName, timeout = 0) {
@@ -156,17 +156,18 @@ export default function bkTest() {
     // obliczenie ile w tym etapie pelnych 10metrowek
     function calculateFull10meters() {
         full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
-        if( (stage%3 === 1 && withBreaks) || stage === 1 ){
+        if ( (stage%3 === 1 && withBreaks) || stage === 1 ) {
             currentInterval = stagesIntervals[stage-1];
             restTime = 0;
         }
-        else
-        currentInterval = restTime;
+        else {
+            currentInterval = restTime;
+        }
     }
 
     return {
         toogleTest() {
-            if(testIsRunned) {
+            if (testIsRunned) {
                 stopTest();
                 setInitState();
             } else {
@@ -174,7 +175,7 @@ export default function bkTest() {
             }
         },
         toogleBreak() {
-            if(withBreaks) {
+            if (withBreaks) {
                 withBreaks = false;
                 guiActions().setBreaksOff();
             } else {
