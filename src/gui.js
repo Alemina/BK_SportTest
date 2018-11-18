@@ -2,13 +2,13 @@ import $ from "jquery";
 export default function guiActions() {
     return {
         setBreaksOff() {
-            $("#break-row").removeClass("hide");
-            $('#break_btn').text('Wyłącz przerwy');
+            $("#break-row").addClass("hide");
+            $('#break_btn').text('Włącz przerwy');
             $('#break_btn').blur();
         },
         setBreaksOn() {
-            $("#break-row").addClass("hide");
-            $('#break_btn').text('Włącz przerwy');
+            $("#break-row").removeClass("hide");
+            $('#break_btn').text('Wyłącz przerwy');
             $('#break_btn').blur();
         },
         setTestOn() {
