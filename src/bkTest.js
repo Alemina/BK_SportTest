@@ -56,7 +56,7 @@ export default function bkTest() {
     }
 
     function setInitState() {
-        const beginStage = $('#beginFromStage').val();
+        const beginStage = parseInt($('#beginFromStage').val());
         stage = beginStage;
         currentInterval = stagesIntervals[beginStage-1];
         nextSoundName = 'start';
@@ -74,7 +74,6 @@ export default function bkTest() {
         }
 
         $("#current-stage").text(`${stage} z 18`);
-
         playSoundNow(nextSoundName);
         
         if (currentBollard > 40) {
@@ -85,9 +84,9 @@ export default function bkTest() {
         }
         
         if (finishedFull10meters === 1) { // zmieniam czas pozostaly dopiero po 1 przejsciu 
-            restTime = 120000 - restTime - ( stagesIntervals[stage-1] * full10meters); 
+            restTime = 120000 - restTime - (stagesIntervals[stage-1] * full10meters); 
             currentInterval = stagesIntervals[stage-1];
-            if( (stage%3 != 1 || !withBreaks) && stage !=1 ) full10meters++; 
+            if( (stage%3 !== 1 || !withBreaks) && stage !== 1 ) full10meters++; 
         }
 
         if (finishedFull10meters < full10meters ) {
@@ -157,7 +156,8 @@ export default function bkTest() {
     // obliczenie ile w tym etapie pelnych 10metrowek
     function calculateFull10meters() {
         full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
-        if ( (stage%3 === 1 && withBreaks) || stage === 1 ) {
+        const beginStage = parseInt($('#beginFromStage').val());
+        if ( (stage%3 === 1 && withBreaks) || (stage === beginStage && !withBreaks) || stage === 1 ) {
             currentInterval = stagesIntervals[stage-1];
             restTime = 0;
         }

@@ -1,7 +1,6 @@
 - dzwiek koniec jak koniec testu
 - przenies stoper do gui i porobic uchwyty na kazdy element np ze timeStopwatch.akcja
 - wylacz przerwy zrobic jako dropdown
-- dodac zeby mozna bylo zaczynac z dowolnego momentu testu
 - dodac dzwieki przy build:prod
 - sprawdzic errory przy wlaczaniu strony 1. ze background 2. przy build:prod ze bundle
 - wyrownac stoper bo sie rozjezdza troche
