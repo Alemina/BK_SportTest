@@ -16,15 +16,22 @@ export default function guiActions() {
             $('#start_btn').addClass('btn-danger');
             $('#start_btn').text('Stop');
             $('#start_btn').blur();
-            $("#break_btn").addClass("hide");
+            
+            $('#break_btn').addClass('hide');
+            $('select').addClass('hide');
         },
         setTestOff() {
             $('#start_btn').removeClass('btn-danger');
             $('#start_btn').addClass('btn-success');
             $('#start_btn').text('Start');
             $('#start_btn').blur();
-            $("#break_btn").removeClass("hide");
-            $("#current-stage").text('---');
+
+            $('#break_btn').removeClass('hide');
+            $('select').removeClass('hide');
+            $('#current-stage').text('---');
+        },
+        onChangeBeginStage() {
+            $('select').blur();
         }
         
 

@@ -50,25 +50,26 @@ export default function bkTest() {
         testIsRunned = false;
         guiActions().setTestOff();
         clearTimeout(timeoutHandle);
+        timeoutHandle = null;
         _currentTime.stop();
         _currentTime.clear();
     }
 
     function setInitState() {
-        stage = 1;
-        currentInterval = 4237;
+        const beginStage = $('#beginFromStage').val();
+        stage = beginStage;
+        currentInterval = stagesIntervals[beginStage-1];
         nextSoundName = 'start';
         full10meters = 0;
         finishedFull10meters = 0;
         restTime = 0;
         currentBollard = 1; 
-        testIsRunned = false;
-        timeoutHandle = null;
+        
     }
 
     function calculatePass(){
         
-        if(!testIsRunned || stage > 18){
+        if (!testIsRunned || stage > 18) {
             return;
         }
 
@@ -169,8 +170,8 @@ export default function bkTest() {
         toogleTest() {
             if (testIsRunned) {
                 stopTest();
-                setInitState();
             } else {
+                setInitState();
                 startTest();
             }
         },
