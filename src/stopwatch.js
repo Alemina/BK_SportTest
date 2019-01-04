@@ -46,6 +46,8 @@ export default function stopwatch(id) {
 
     return {
         start: function() {
+            seconds = 0; minutes = 0; hours = 0;
+            element.textContent = '00:00:00';
             timer();
         },
         stop: function() {
@@ -53,7 +55,6 @@ export default function stopwatch(id) {
         },
         clear: function() {
             element.textContent = "---";
-            seconds = 0; minutes = 0; hours = 0;
         },
         startCountingDown: (s, m = 0, h = 0) => {
             hours = h;

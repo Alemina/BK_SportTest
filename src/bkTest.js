@@ -12,8 +12,10 @@ export default function bkTest() {
     let restTime = 0;
     let currentBollard = 1; 
     let testIsRunned = false;
+    let firstTimeInStage = true;
     let withBreaks = true;
     let timeoutHandle = null;
+    let deleteit = 0;
     // ile czasu pomiedzy pacholkami w danym etapie np etap 1 = 4.237s na przebiegniecie 10m
     const stagesIntervals = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
                             2321, 2248, 2180, 2116]; 
@@ -39,7 +41,6 @@ export default function bkTest() {
         .then( () => 
             timeoutHandle = setTimeout(function() {
                 _currentTime.stop();
-                _currentTime.clear();
                 _currentTime.start()
                 calculatePass();
             },1000)
@@ -64,51 +65,54 @@ export default function bkTest() {
         finishedFull10meters = 0;
         restTime = 0;
         currentBollard = 1; 
-        
+        firstTimeInStage = 'true';
+        deleteit = 0 - currentInterval;
     }
 
-    function calculatePass(){
+    function calculatePass() {
+        deleteit += currentInterval;
+        console.log('currentInterval', currentInterval, restTime, nextSoundName, deleteit);
         
         if (!testIsRunned || stage > 18) {
             return;
         }
 
-        $("#current-stage").text(`${stage} z 18`);
+        guiActions().setCurrentStage(stage);
         playSoundNow(nextSoundName);
         
         if (currentBollard > 40) {
             currentBollard = 1;
         }
-        if (finishedFull10meters === 0) {
+        if (firstTimeInStage) {
             calculateFull10meters();
-        }
-        
-        if (finishedFull10meters === 1) { // zmieniam czas pozostaly dopiero po 1 przejsciu 
-            restTime = 120000 - restTime - (stagesIntervals[stage-1] * full10meters); 
+            calculateFirstInterval();
+            calculateRestTime();
+        } else {
             currentInterval = stagesIntervals[stage-1];
-            if( (stage%3 !== 1 || !withBreaks) && stage !== 1 ) full10meters++; 
         }
 
         if (finishedFull10meters < full10meters ) {
-            finishedFull10meters++;
+            if (stagesIntervals.includes(currentInterval)) {
+                finishedFull10meters++;
+            }
+            firstTimeInStage = false;
             nextSoundName = currentBollard.toString();
-            currentBollard++; 
+            currentBollard++;
         } else {
-            currentInterval = restTime; 
             finishedFull10meters = 0;
             nextSoundName = "bip";
-                    
-            // obliczenie reszty czasu, w nowym tempie do pierwszego w tym etapie pacholka
-            restTime = 10*restTime/stagesIntervals[stage-1]; // ile [m] przebiegl juz poza pacholkiem 
-            restTime = 10 - restTime; // ile metrow musi przebiec do kolejnego pacholka ale juz w szybszym tempie
-            restTime = stagesIntervals[stage]*restTime/10; // w jakim czasie bedzie biegl te pozostale metry
-            
+
             if (stage%3 === 0 && withBreaks) {
                 currentBollard++;
-                restTime =0;
-                twoMinutesBreak(currentInterval);
-                currentInterval = 120000;
+                twoMinutesBreak(restTime);
+                currentInterval = 120000 + restTime;
+                restTime = 0;
+            } else {
+                currentInterval = restTime;
+                calculateRestTime(true);
             }
+
+            firstTimeInStage = true;
             stage++;
         }
         timeoutHandle = setTimeout(function(){
@@ -125,7 +129,7 @@ export default function bkTest() {
         .then( () => playSoundWithDelay('dwie minuty przerwy', 1700))
         .then( () => playSoundWithDelay('ustaw sie na numerze A', 1700))
         .then( () => playSoundWithDelay(nr, 1300))
-        .then( () => playSoundWithDelay('pozostala minuta', 55000))
+        .then( () => playSoundWithDelay('pozostala minuta', 55300))
         .then( () => playSoundWithDelay('pozostalo 30 sekund', 30000))
         .then( () => playSoundWithDelay('dziesiec sekund', 20000))
         .then( () => playSoundWithDelay('3', 7000))
@@ -156,12 +160,25 @@ export default function bkTest() {
     // obliczenie ile w tym etapie pelnych 10metrowek
     function calculateFull10meters() {
         full10meters = parseInt((120000 - restTime) / stagesIntervals[stage-1]) ;
-        const beginStage = parseInt($('#beginFromStage').val());
-        if ( (stage%3 === 1 && withBreaks) || (stage === beginStage && !withBreaks) || stage === 1 ) {
-            currentInterval = stagesIntervals[stage-1];
-            restTime = 0;
+    }
+
+    function calculateRestTime(restTimeToFirstBollard = false) {
+        if (restTimeToFirstBollard) {
+            // obliczenie reszty czasu, w nowym tempie do pierwszego w tym etapie pacholka
+            restTime = 10*restTime/stagesIntervals[stage-1]; // ile [m] przebiegl juz poza pacholkiem 
+            restTime = 10 - restTime; // ile metrow musi przebiec do kolejnego pacholka ale juz w szybszym tempie
+            restTime = stagesIntervals[stage]*restTime/10; // w jakim czasie bedzie biegl te pozostale metry
+            restTime = parseInt(restTime);
+        } else {
+            restTime = 120000 - restTime - (stagesIntervals[stage-1] * full10meters); 
         }
-        else {
+    }
+
+    function calculateFirstInterval() {
+        const beginStage = parseInt($('#beginFromStage').val());
+        if ((stage%3 === 1 && withBreaks) || (stage === beginStage && !withBreaks)) {
+            currentInterval = stagesIntervals[stage-1];
+        } else {
             currentInterval = restTime;
         }
     }

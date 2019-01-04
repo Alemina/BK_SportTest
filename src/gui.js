@@ -16,7 +16,7 @@ export default function guiActions() {
             $('#start_btn').addClass('btn-danger');
             $('#start_btn').text('Stop');
             $('#start_btn').blur();
-            
+
             $('#break_btn').addClass('hide');
             $('select').addClass('hide');
         },
@@ -32,6 +32,9 @@ export default function guiActions() {
         },
         onChangeBeginStage() {
             $('select').blur();
+        },
+        setCurrentStage(stage) {
+            $("#current-stage").text(`${stage} z 18`);
         }
         
 
