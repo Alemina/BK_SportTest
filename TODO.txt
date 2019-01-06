@@ -1,4 +1,4 @@
-- dzwiek koniec jak koniec testu
+- dzwiek koniec jak koniec testu, i zatrzymac stoper
 - przenies stoper do gui i porobic uchwyty na kazdy element np ze timeStopwatch.akcja
 - wylacz przerwy zrobic jako dropdown
 - dodac dzwieki przy build:prod

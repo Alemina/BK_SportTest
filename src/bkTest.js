@@ -135,7 +135,6 @@ export default function bkTest() {
         .then( () => playSoundWithDelay('3', 7000))
         .then( () => playSoundWithDelay('2', 1000))
         .then( () => playSoundWithDelay('1', 1000))
-        .then( () => playSoundWithDelay('start', 1000))
     }
 
     function playSoundWithDelay(soundName, timeout = 0) {
