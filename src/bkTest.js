@@ -20,6 +20,8 @@ export default function bkTest() {
     const stagesIntervals = [4237, 3996, 3786, 3597, 3425, 3270, 3127, 2997, 2877, 2767, 2664, 2569, 2481, 2398, 
                             2321, 2248, 2180, 2116]; 
     const _currentTime = stopwatch('current-time');
+    const _stageStopwatch = stopwatch('time-to-stage-end');
+    const _breakStopwatch = stopwatch('time-to-break-end');
 
     function startTest()
     {
@@ -41,7 +43,8 @@ export default function bkTest() {
         .then( () => 
             timeoutHandle = setTimeout(function() {
                 _currentTime.stop();
-                _currentTime.start()
+                _currentTime.start();
+                _stageStopwatch.startCountingDown(0,2);
                 calculatePass();
             },1000)
         )
@@ -54,6 +57,8 @@ export default function bkTest() {
         timeoutHandle = null;
         _currentTime.stop();
         _currentTime.clear();
+        _stageStopwatch.stop();
+        _stageStopwatch.clear();
     }
 
     function setInitState() {
@@ -99,6 +104,7 @@ export default function bkTest() {
             nextSoundName = currentBollard.toString();
             currentBollard++;
         } else {
+            _stageStopwatch.stop(); // TODO to na pewno nie powinno tu byc, bo nie jest do konca dokladne
             finishedFull10meters = 0;
             nextSoundName = "bip";
 
