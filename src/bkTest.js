@@ -84,6 +84,10 @@ export default function bkTest() {
 
         guiActions().setCurrentStage(stage);
         playSoundNow(nextSoundName);
+
+        if (currentBollard-1 === parseInt(nextSoundName)) {
+            guiActions().add10Meters();
+        }
         
         if (currentBollard > 40) {
             currentBollard = 1;

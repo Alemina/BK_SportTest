@@ -19,6 +19,7 @@ export default function guiActions() {
 
             $('#break_btn').addClass('hide');
             $('select').addClass('hide');
+            $("#meters").text('0');
         },
         setTestOff() {
             $('#start_btn').removeClass('btn-danger');
@@ -29,12 +30,16 @@ export default function guiActions() {
             $('#break_btn').removeClass('hide');
             $('select').removeClass('hide');
             $('#current-stage').text('---');
+            $("#meters").text('---')
         },
         onChangeBeginStage() {
             $('select').blur();
         },
         setCurrentStage(stage) {
             $("#current-stage").text(`${stage} z 18`);
+        },
+        add10Meters() {
+            $("#meters").text( parseInt($("#meters").text()) + 10 );
         }
         
 
